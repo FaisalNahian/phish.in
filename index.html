@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>Phish.in | Security Terms Puzzle Game</title>
+    <!--[if lt IE 9]><script type="text/javascript" src="bin/flashcanvas.js"></script><![endif]-->
+    <link href="images/favicon.html" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="css/buttons.css" type="text/css" charset="utf-8" />
+    <!--[if lt IE 8]><link rel="stylesheet" href="css/ie.css" type="text/css" charset="utf-8" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<!-- GAME OPTIONS -->
+<ul id="game-options">
+    <li><b id="clock" class="button">00:00:00</b></li>
+    <li><b id="points" class="button">10000 Points</b></li>
+    <li><a href="#" id="show-help" class="button help" title="Help">How to Play</a></li>
+    <li><a href="#" id="restart" class="button" title="Restart">Restart</a></li>
+    <li><a href="#" id="font-size-up" class="button left" title="Increase the font size">+A</a></li>
+    <li><a href="#" id="font-size-down" class="button right" title="Decrease the font size"><small>-A</small></a></li>
+ <!--   <li>
+        <div class="styled-select words">
+            <select id="set-words">
+                <option value="1">Few words</option>
+                <option value="1.5">Many words</option>
+                <option value="2">Are you crazy</option>
+            </select>
+        </div>
+    </li>
+    <li>
+        <div class="styled-select size">
+            <select id="set-size">
+                <option value="10">10x10 grid</option>
+                <option value="15">15x15 grid</option>
+                <option value="20">20x20 grid</option>
+            </select>
+        </div>
+    </li>-->
+   <!-- Insert custom buttons here 
+    <li><a onclick="open('http://twitter.com/share?url='+encodeURIComponent(location.href), 'Twitter', 'width=700,height=500');return false;" 
+           id="share-twitter" title="Share on Twitter" >Twitter</a>
+    </li>
+    <li>
+        <a onclick="open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(location.href), 'Facebook', 'width=800,height=500');return false;"
+           id="share-facebook" title="Share on Facebook" >Facebook</a>
+    </li>-->
+</ul>
+
+<!-- JIGSAW CANVAS -->
+<div id="canvas-wrap">
+<div id="word-search">
+    <canvas id="grid"></canvas>
+    <canvas id="lines"></canvas>
+    <canvas id="layer"></canvas>
+    <div id="word-description"></div>
+    <ol id="word-list">
+    </ol>
+</div>
+</div>
+
+<div class="hide" id="help">
+<a href="#" class="close" title="cerrar" onclick="closeModal(this);">X</a>
+    <h1>How to play!</h1>
+    <ul>
+    <li>Find and mark all the words inside the box before your points fall to zero.</li>
+    <li>The words may be horizontally, vertically, diagonally and even backwards.</li>
+    <li>If you give up searching for a word use the button next to the word.</li>
+    <li>After finding the word you will see a description of it in the bottom.</li>
+    </ul>
+</div>
+
+<!-- OVERLAY -->
+<div class="hide" id="overlay"></div>
+<iframe class="hide" src="about:blank" id="save-score" name="save-score"></iframe>
+<!-- CONGRATULATION -->
+<div id="congrat" class="hide">
+</div>
+
+<!-- TEMPLATES -->
+<script id="congrat-tmpl" type="text/template">
+<a href="#" class="close" title="cerrar" onclick="closeModal(this);">X</a>
+    <h1>Congratulations!</h1>
+    <h2>Your score is</h2>
+    <h3>{score}</h3>
+    <form method="post" action="score.php" target="save-score" onsubmit="closeModal(this);">
+        <label>
+        Your Name: <input type="text" name="name" />
+        </label>
+        <input type="submit" value="Save score" />
+        <input type="hidden" name="time" value="{time}"/>
+        <input type="hidden" name="score" value="{score}"/>
+    </form>
+</script>
+<!-- SCRIPTS ROMPECABEZAS -->
+<script>
+words={"Adware":"While not necessarily malware, adware is considered to go beyond the reasonable advertising that one might expect from freeware or shareware. Typically a separate program that is installed at the same time as a shareware or similar program, adware will usually continue to generate advertising even when the user is not running the origianlly desired program. See also cookies, spyware, and web bugs","AIS":"Automated Information System–any equipment of an interconnected system or subsystems of equipment that is used in the automatic acquisition, storage,manipulation, control, display, transmission, or reception of data and includes software, firmware, and hardware.","Alert":"A formatted message describing a circumstance relevant to network security.Alerts are often derived from critical audit events.","AntiSpam":"A Software or service to help prevent unsolicited mail and to complicate a spammer’s method of collecting email addresses.","Assessment":"Surveys and Inspections; an analysis of the vulnerabilities of an AIS.Information acquisition and review process designed to assist a customer to determine how best to use resources to protect information in systems.","Assessment":"Surveys and Inspections; an analysis of the vulnerabilities of an AIS.Information acquisition and review process designed to assist a customer to determine how best to use resources to protect information in systems.","Assurance":"A measure of confidence that the security features and architecture of an AIS accurately mediate and enforce the security policy.","Attack":"An attempt to bypass security controls on a computer. The attack may alter,release, or deny data. Whether an attack will succeed depends on the vulnerability of the computer system and the effectiveness of existing countermeasures.","Audit":"The independent examination of records and activities to ensure compliance with established controls, policy, and operational procedures, and to recommend any indicated changes in controls, policy, or procedures.","Authenticate":"To establish the validity of a claimed user or object.","Authentication":"To positively verify the identity of a user, device, or other entity in a computer system, often as a prerequisite to allowing access to resources in a system.","Availability":" Assuring information and communications services will be ready for use when expected.","Breach":"The successful defeat of security controls which could result in a penetration of the system. A violation of controls of a particular information system such that information assets or system components are unduly exposed.","Bug":"An unwanted and unintended property of a program or piece of hardware,especially one that causes it to malfunction.","CGI":"Common Gateway Interface – CGI is the method that Web servers use to allow interaction between servers and programs.","COAST":"Computer Operations, Audit, and Security Technology – is a multiple project,multiple investigator laboratory in computer security research in the Computer Sciences Department at Purdue University. It functions with close ties to researchers and engineers in major companies and government agencies. Its research is focused on real-world needs and limitations, with a special focus on security for legacy computing systems.","Compromise":"An intrusion into a computer system where unauthorized disclosure, modification or destruction of sensitive information may have occurred.","Confidentiality":"Assuring information will be kept secret, with access limited to appropriate persons.","Countermeasures":"Action, device, procedure, technique, or other measure that reduces the vulnerability of an automated information system. Countermeasures that are aimed at specific threats and vulnerabilities involve more sophisticated techniques as well as activities traditionally perceived as security.","Crack":"A popular hacking tool used to decode encrypted passwords. System administrators also use Crack to assess weak passwords by novice users in order to enhance the security of the AIS.","Cracker":"One who breaks security on an AIS.","Cracking":"The act of breaking into a computer system.","Crash":"A sudden, usually drastic failure of a computer system.","Cryptography":"The art of science concerning the principles, means, and methods for rendering plain text unintelligible and for converting encrypted messages into intelligible form","Cyberspace":"Describes the world of connected computers and the society that gathers around them. Commonly known as the INTERNET.","Firewall":"A system or combination of systems that enforces a boundary between two or more networks. Gateway that limits access between networks in accordance with local security policy. The typical firewall is an inexpensive micro-based Unix box kept clean of critical data, with many modems and public network ports on it, but just one carefully watched connection back to the rest of the cluster.","Fishbowl":"To contain, isolate and monitor an unauthorized user within a system in order to gain information about the user.","Hacker":"A person who enjoys exploring the details of computers and how to stretch their capabilities. A malicious or inquisitive meddler who tries to discover information by poking around. A person who enjoys learning the details of programming systems and how to stretch their capabilities, as opposed to most users who prefer to learn on the minimum necessary.","Hacking":"Unauthorized use, or attempts to circumvent or bypass the security mechanisms of an information system or network.","Host":"A single computer or workstation; it can be connected to a network.","IDEA":"(International Data Encryption Algorithm)A private key encryption-decryption algorithm that uses a key that is twice the length of a DES key.","IDIOT":"Intrusion Detection In Our Time. A system that detects intrusions using pattern-matching.","Integrity":"Assuring information will not be accidentally or maliciously altered or destroyed.","Intrusion":"Any set of actions that attempt to compromise the integrity, confidentiality or availability of a resource.","Key":"A symbol or sequence of symbols (or electrical or mechanical correlates of symbols) applied to text in order to encrypt or decrypt.","LAN":"Local Area Network–A computer communications system limited to no more than a few miles and using high-speed connections (2 to 100 megabits per second). A short-haul communications system that connects ADP devices in a building or group of buildings within a few square kilometers, including workstations, front-end processors, controllers, switches, and gateways.","Letterbomb":"A piece of e-mail containing live data intended to do malicious things to the recipient’s machine or terminal. Under UNIX, a letterbomb can also try to get part of its contents interpreted as a shell command to the mailer. The results of this could range from silly to denial of service.","Mailbomb":"The mail sent to urge others to send massive amounts of e-mail to a single system or person,with the intent to crash the recipient’s system. Mailbombing is widely regarded as a serious offense.","Malware":"A generic term increasingly being used to describe any form of malicious software;eg, viruses, trojan horses, malicious active content,etc.","Metric":"A random variable x representing a quantitative measure accumulated over a period.","Mockingbird":"A computer program or process which mimics the legitimate behavior of a normal system feature (or other apparently useful function) but performs malicious activities once invoked by the user.","Network":"Two or more machines interconnected for communications.","Onunload":"Loads a popup as you leave the webpage.","OSI":"Open Systems Interconnection. A set of internationally accepted and openly developed standards that meet the needs of network resource administration and integrated network utility.","Packet":"A block of data sent over the network transmitting the identities of the sending and receiving stations, error-control information, and message.","PEM":"Privacy Enhanced Mail-An IETF standard for secure electronic mail exchange.","Penetration":"The successful unauthorized access to an automated system.","Perpetrator":"The entity from the external environment that is taken to be the cause of a risk. An entity in the external environment that performs an attack, i.e. hacker.","PGP":"Pretty Good Privacy-A freeware program primarily for secure electronic mail.","Phage":"A program that modifies other programs or databases in unauthorized ways;especially one that propagates a virus or Trojan horse.","PHF":"Phone book file demonstration program that hackers use to gain access to a computer system and potentially read and capture password files."
+}</script>
+<script src="js/soup.min.js" type="text/javascript"></script>
+<script src="js/main-app.js" type="text/javascript"></script>
+</body>
+</html>
+
